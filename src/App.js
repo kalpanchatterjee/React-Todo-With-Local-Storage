@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import CreateTweet from "./CreateTweet";
+import ViewTweet from "./ViewTweet";
 
 function App() {
+  const [CreatedTweet, SetCreatedTweet] = useState([]);
+  const [NewlyCreatedTweet, SetNewlyCreatedTweet] = useState("");
+  useEffect(() => {
+    SetCreatedTweet(
+      JSON.parse(localStorage.getItem("myValueInLocalStorage")) || []
+    );
+    // FIXME:
+    //localStorage.removeItem("myValueInLocalStorage");
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CreateTweet
+        CreatedTweet={CreatedTweet}
+        SetCreatedTweet={SetCreatedTweet}
+        NewlyCreatedTweet={NewlyCreatedTweet}
+        SetNewlyCreatedTweet={SetNewlyCreatedTweet}
+      />
+      <ViewTweet
+        SetCreatedTweet={SetCreatedTweet}
+        tweets={CreatedTweet}
+      ></ViewTweet>
     </div>
   );
 }
